@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy and Terms</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; }
+    h1 { color: #333; }
+    .container { max-width: 900px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px #0001; }
+    nav { margin-bottom: 2em; }
+    nav button { margin-right: 1em; padding: 0.5em 1em; border: none; background: #007bff; color: #fff; border-radius: 4px; cursor: pointer; }
+    nav button.active { background: #0056b3; }
+    section { display: none; }
+    section.active { display: block; }
+    pre, code { background: #eee; padding: 0.2em 0.4em; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Legal Documents</h1>
+        <nav>
+            <button id="btn-privacy" class="active">Privacy Policy</button>
+            <button id="btn-terms">Terms and Conditions</button>
+        </nav>
+        <section id="privacy-section" class="active">
+            <div id="privacy-content">Loading...</div>
+        </section>
+        <section id="terms-section">
+            <div id="terms-content">Loading...</div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    // Function to load and render markdown
+    async function loadMarkdown(url, targetId) {
+        const res = await fetch(url);
+        const text = await res.text();
+        document.getElementById(targetId).innerHTML = marked.parse(text);
+    }
+    // Toggle between sections
+    document.getElementById('btn-privacy').onclick = function() {
+        this.classList.add('active');
+        document.getElementById('btn-terms').classList.remove('active');
+        document.getElementById('privacy-section').classList.add('active');
+        document.getElementById('terms-section').classList.remove('active');
+    };
+    document.getElementById('btn-terms').onclick = function() {
+        this.classList.add('active');
+        document.getElementById('btn-privacy').classList.remove('active');
+        document.getElementById('terms-section').classList.add('active');
+        document.getElementById('privacy-section').classList.remove('active');
+    };
+    // Load markdown files
+    loadMarkdown('privacy-policy.md', 'privacy-content');
+    loadMarkdown('terms-conditions.md', 'terms-content');
+    </script>
+</body>
+</html>
